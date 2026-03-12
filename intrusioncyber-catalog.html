@@ -1,0 +1,1516 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IntrusionCyber — Catálogo de Serviços</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #050a0f;
+    --surface: #0b1420;
+    --surface2: #101c2e;
+    --accent: #00e5ff;
+    --accent2: #ff3d71;
+    --gold: #ffd166;
+    --text: #e8f4f8;
+    --muted: #607080;
+    --border: rgba(0,229,255,0.12);
+    --glow: 0 0 40px rgba(0,229,255,0.15);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    line-height: 1.7;
+  }
+
+  /* SCANNER LINE EFFECT */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,229,255,0.015) 2px,
+      rgba(0,229,255,0.015) 4px
+    );
+    pointer-events: none;
+    z-index: 1000;
+  }
+
+  /* GRID BACKGROUND */
+  .grid-bg {
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* LANG SWITCHER */
+  .lang-bar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 999;
+    background: rgba(5,10,15,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 40px;
+  }
+
+  .lang-logo {
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    color: var(--accent);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .lang-logo span { color: var(--accent2); }
+
+  .lang-btns { display: flex; gap: 8px; }
+
+  .lang-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 6px 14px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+  }
+
+  .lang-btn:hover, .lang-btn.active {
+    background: var(--accent);
+    color: var(--bg);
+    border-color: var(--accent);
+    box-shadow: 0 0 20px rgba(0,229,255,0.3);
+  }
+
+  /* SECTIONS */
+  section { position: relative; z-index: 1; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 120px 40px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    width: 800px; height: 800px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,229,255,0.06) 0%, transparent 70%);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+
+  .hero-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s forwards;
+  }
+
+  .hero-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(52px, 8vw, 100px);
+    line-height: 0.92;
+    letter-spacing: -3px;
+    margin-bottom: 12px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.4s forwards;
+  }
+
+  .hero-title .hl { color: var(--accent); }
+  .hero-title .hl2 { color: var(--accent2); }
+
+  .hero-sub {
+    font-size: 18px;
+    color: var(--muted);
+    max-width: 580px;
+    margin: 28px auto 0;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.6s forwards;
+  }
+
+  .hero-cta {
+    margin-top: 48px;
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.8s forwards;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 14px 32px;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: var(--bg);
+    border: none;
+    box-shadow: 0 0 30px rgba(0,229,255,0.3);
+  }
+  .btn-primary:hover { box-shadow: 0 0 50px rgba(0,229,255,0.5); transform: translateY(-2px); }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+  }
+  .btn-outline:hover { background: rgba(0,229,255,0.08); transform: translateY(-2px); }
+
+  /* STATS BAR */
+  .stats-bar {
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    background: var(--surface);
+  }
+
+  .stat-item {
+    padding: 32px 24px;
+    text-align: center;
+    border-right: 1px solid var(--border);
+  }
+  .stat-item:last-child { border-right: none; }
+
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--accent);
+  }
+
+  .stat-label {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 4px;
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 1px;
+  }
+
+  /* CARTA DE APRESENTAÇÃO */
+  .cover-letter {
+    max-width: 900px;
+    margin: 100px auto;
+    padding: 0 40px;
+  }
+
+  .section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    max-width: 80px;
+    height: 1px;
+    background: var(--accent);
+    opacity: 0.4;
+  }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(32px, 4vw, 52px);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -1.5px;
+    margin-bottom: 32px;
+  }
+
+  .letter-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 48px 56px;
+    position: relative;
+    box-shadow: var(--glow);
+  }
+
+  .letter-box::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px; height: 100%;
+    background: linear-gradient(to bottom, var(--accent), var(--accent2));
+  }
+
+  .letter-p {
+    font-size: 16px;
+    line-height: 1.9;
+    color: #b0c8d8;
+    margin-bottom: 20px;
+  }
+
+  .letter-p strong { color: var(--text); font-weight: 500; }
+
+  .letter-sig {
+    margin-top: 40px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .sig-avatar {
+    width: 56px; height: 56px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 20px;
+    color: var(--bg);
+    flex-shrink: 0;
+  }
+
+  .sig-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 18px; }
+  .sig-role { font-size: 13px; color: var(--muted); font-family: 'Space Mono', monospace; }
+
+  /* SERVICES GRID */
+  .services-section {
+    padding: 100px 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 2px;
+    margin-top: 60px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .service-card {
+    background: var(--surface);
+    padding: 40px;
+    position: relative;
+    transition: background 0.3s;
+    overflow: hidden;
+    cursor: default;
+  }
+
+  .service-card:hover { background: var(--surface2); }
+
+  .service-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(to right, var(--accent), transparent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s;
+  }
+
+  .service-card:hover::after { transform: scaleX(1); }
+
+  .service-icon {
+    width: 48px; height: 48px;
+    margin-bottom: 24px;
+    color: var(--accent);
+    opacity: 0.8;
+  }
+
+  .service-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+
+  .service-desc {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: 20px;
+  }
+
+  .service-scope {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .scope-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    padding: 4px 10px;
+    border: 1px solid rgba(0,229,255,0.2);
+    color: var(--accent);
+    letter-spacing: 0.5px;
+  }
+
+  /* CATALOG / PRICING */
+  .catalog-section {
+    padding: 100px 40px;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .catalog-inner { max-width: 1200px; margin: 0 auto; }
+
+  .catalog-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 50px;
+    font-size: 14px;
+  }
+
+  .catalog-table th {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    padding: 16px 20px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+    background: rgba(0,229,255,0.04);
+  }
+
+  .catalog-table td {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    color: #9bb4c4;
+  }
+
+  .catalog-table tr:hover td { background: var(--surface2); color: var(--text); }
+
+  .td-service { font-weight: 500; color: var(--text); }
+
+  .td-price {
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    white-space: nowrap;
+  }
+
+  .price-usd { color: var(--accent); }
+  .price-brl { color: var(--gold); }
+  .price-eur { color: #a8d8a8; }
+
+  .catalog-category {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent2);
+    padding: 20px 20px 8px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    background: rgba(255,61,113,0.04);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .badge-new {
+    display: inline-block;
+    background: var(--accent2);
+    color: white;
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    padding: 2px 6px;
+    margin-left: 8px;
+    vertical-align: middle;
+    letter-spacing: 1px;
+  }
+
+  .badge-hot {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--bg);
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    padding: 2px 6px;
+    margin-left: 8px;
+    vertical-align: middle;
+    letter-spacing: 1px;
+  }
+
+  /* PORTFOLIO */
+  .portfolio-section {
+    padding: 100px 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 60px;
+  }
+
+  .portfolio-card {
+    border: 1px solid var(--border);
+    padding: 36px 32px;
+    background: var(--surface);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+
+  .portfolio-card:hover {
+    border-color: rgba(0,229,255,0.4);
+    box-shadow: var(--glow);
+    transform: translateY(-4px);
+  }
+
+  .portfolio-sector {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--accent2);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .portfolio-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+
+  .portfolio-desc {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  .portfolio-outcome {
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+  }
+
+  /* CONTACT / FOOTER */
+  .contact-section {
+    padding: 100px 40px;
+    text-align: center;
+    border-top: 1px solid var(--border);
+    background: var(--surface);
+  }
+
+  .contact-grid {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    margin-top: 48px;
+  }
+
+  .contact-item {
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+  }
+
+  .contact-item a { color: var(--accent); text-decoration: none; }
+  .contact-item a:hover { text-decoration: underline; }
+
+  .contact-label { color: var(--muted); font-size: 10px; letter-spacing: 2px; margin-bottom: 4px; }
+
+  footer {
+    background: var(--bg);
+    border-top: 1px solid var(--border);
+    padding: 24px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* LANGUAGE VISIBILITY */
+  [data-lang] { display: none; }
+  body[data-active-lang="pt"] [data-lang="pt"] { display: block; }
+  body[data-active-lang="en"] [data-lang="en"] { display: block; }
+  body[data-active-lang="it"] [data-lang="it"] { display: block; }
+  [data-lang-inline] { display: none; }
+  body[data-active-lang="pt"] [data-lang-inline="pt"] { display: inline; }
+  body[data-active-lang="en"] [data-lang-inline="en"] { display: inline; }
+  body[data-active-lang="it"] [data-lang-inline="it"] { display: inline; }
+
+  /* always-visible elements */
+  .always { display: block !important; }
+  .always-flex { display: flex !important; }
+  .always-grid { display: grid !important; }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .stats-bar { grid-template-columns: repeat(2, 1fr); }
+    .portfolio-grid { grid-template-columns: 1fr; }
+    .lang-bar { padding: 12px 20px; }
+    .letter-box { padding: 32px 24px; }
+    .services-grid { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 8px; text-align: center; }
+  }
+
+  @media (max-width: 600px) {
+    .stats-bar { grid-template-columns: 1fr 1fr; }
+    .cover-letter, .services-section, .catalog-section, .portfolio-section { padding: 60px 20px; }
+  }
+</style>
+</head>
+<body data-active-lang="pt">
+<div class="grid-bg"></div>
+
+<!-- LANG BAR -->
+<nav class="lang-bar always-flex">
+  <div class="lang-logo">INTRUSION<span>CYBER</span></div>
+  <div class="lang-btns">
+    <button class="lang-btn active" onclick="setLang('pt', this)">PT 🇧🇷</button>
+    <button class="lang-btn" onclick="setLang('en', this)">EN 🇺🇸</button>
+    <button class="lang-btn" onclick="setLang('it', this)">IT 🇮🇹</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-tag">
+    <span data-lang-inline="pt">Segurança Ofensiva · Red Team · Pentest</span>
+    <span data-lang-inline="en">Offensive Security · Red Team · Pentest</span>
+    <span data-lang-inline="it">Sicurezza Offensiva · Red Team · Pentest</span>
+  </div>
+  <h1 class="hero-title">
+    <span class="hl">INTRUSION</span><br>
+    <span class="hl2">CYBER</span>
+  </h1>
+  <p class="hero-sub">
+    <span data-lang-inline="pt">Especialistas em testes de invasão, segurança ofensiva e proteção de ambientes digitais para empresas que não aceitam riscos.</span>
+    <span data-lang-inline="en">Experts in penetration testing, offensive security, and digital environment protection for organizations that don't accept risk.</span>
+    <span data-lang-inline="it">Esperti in penetration testing, sicurezza offensiva e protezione degli ambienti digitali per aziende che non accettano rischi.</span>
+  </p>
+  <div class="hero-cta">
+    <a href="mailto:douglas@intrusioncyber.com" class="btn btn-primary">
+      <span data-lang-inline="pt">Solicitar Proposta</span>
+      <span data-lang-inline="en">Request Proposal</span>
+      <span data-lang-inline="it">Richiedi Proposta</span>
+    </a>
+    <a href="#catalog" class="btn btn-outline">
+      <span data-lang-inline="pt">Ver Catálogo</span>
+      <span data-lang-inline="en">View Catalog</span>
+      <span data-lang-inline="it">Vedi Catalogo</span>
+    </a>
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar always-grid">
+  <div class="stat-item">
+    <div class="stat-num">10+</div>
+    <div class="stat-label">
+      <span data-lang-inline="pt">Anos de Experiência</span>
+      <span data-lang-inline="en">Years Experience</span>
+      <span data-lang-inline="it">Anni di Esperienza</span>
+    </div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">200+</div>
+    <div class="stat-label">
+      <span data-lang-inline="pt">Pentests Realizados</span>
+      <span data-lang-inline="en">Pentests Delivered</span>
+      <span data-lang-inline="it">Pentest Eseguiti</span>
+    </div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">3</div>
+    <div class="stat-label">
+      <span data-lang-inline="pt">Países de Operação</span>
+      <span data-lang-inline="en">Countries Operating</span>
+      <span data-lang-inline="it">Paesi Operativi</span>
+    </div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">0</div>
+    <div class="stat-label">
+      <span data-lang-inline="pt">Incidentes Pós-Pentest</span>
+      <span data-lang-inline="en">Post-Pentest Breaches</span>
+      <span data-lang-inline="it">Violazioni Post-Pentest</span>
+    </div>
+  </div>
+</div>
+
+<!-- CARTA DE APRESENTAÇÃO -->
+<section class="cover-letter">
+  <div class="section-label">
+    <span data-lang-inline="pt">Carta de Apresentação</span>
+    <span data-lang-inline="en">Cover Letter</span>
+    <span data-lang-inline="it">Lettera di Presentazione</span>
+  </div>
+  <h2 class="section-title">
+    <span data-lang-inline="pt">Quem Somos</span>
+    <span data-lang-inline="en">Who We Are</span>
+    <span data-lang-inline="it">Chi Siamo</span>
+  </h2>
+
+  <div class="letter-box">
+    <!-- PT -->
+    <div data-lang="pt">
+      <p class="letter-p">Prezado(a) cliente,</p>
+      <p class="letter-p">A <strong>IntrusionCyber</strong> é uma empresa especializada em segurança ofensiva, com sede em <strong>Brasília, Brasil</strong>, e operação europeia em <strong>Roma, Itália</strong>. Atuamos com foco total em testes de intrusão (pentest) para empresas que precisam identificar e corrigir vulnerabilidades antes que atacantes reais o façam.</p>
+      <p class="letter-p">Nossa equipe combina experiência em <strong>Red Team, análise de vulnerabilidades, exploração ética e engenharia reversa</strong>. Cada engajamento é conduzido com metodologias reconhecidas internacionalmente — OWASP, OSSTMM, PTES e NIST — adaptadas ao contexto e criticidade de cada cliente.</p>
+      <p class="letter-p">Trabalhamos com fintechs, e-commerces, hospitais, escritórios de advocacia, empresas de tecnologia, infraestruturas críticas e startups. Independente do porte, tratamos cada projeto com <strong>rigor técnico, confidencialidade absoluta e entrega de valor real</strong>.</p>
+      <p class="letter-p">Confiamos que este catálogo demonstra a amplitude dos nossos serviços. Estamos à disposição para uma conversa e para apresentar uma proposta personalizada ao seu ambiente.</p>
+    </div>
+    <!-- EN -->
+    <div data-lang="en">
+      <p class="letter-p">Dear client,</p>
+      <p class="letter-p"><strong>IntrusionCyber</strong> is a cybersecurity firm specialized in offensive security, headquartered in <strong>Brasília, Brazil</strong>, with European operations based in <strong>Rome, Italy</strong>. We are entirely focused on penetration testing — helping organizations identify and remediate vulnerabilities before real attackers do.</p>
+      <p class="letter-p">Our team combines expertise in <strong>Red Team operations, vulnerability analysis, ethical exploitation, and reverse engineering</strong>. Every engagement follows internationally recognized methodologies — OWASP, OSSTMM, PTES, and NIST — tailored to each client's environment and risk profile.</p>
+      <p class="letter-p">We serve fintechs, e-commerce platforms, healthcare institutions, law firms, technology companies, critical infrastructure, and startups. Regardless of size, every project receives <strong>technical rigor, absolute confidentiality, and measurable security improvements</strong>.</p>
+      <p class="letter-p">We trust this catalog illustrates the full scope of our services. We look forward to discussing your specific needs and presenting a tailored proposal.</p>
+    </div>
+    <!-- IT -->
+    <div data-lang="it">
+      <p class="letter-p">Gentile cliente,</p>
+      <p class="letter-p"><strong>IntrusionCyber</strong> è un'azienda specializzata in sicurezza offensiva, con sede a <strong>Brasília, Brasile</strong>, e operazioni europee a <strong>Roma, Italia</strong>. Ci dedichiamo esclusivamente ai test di intrusione (pentest) — aiutando le organizzazioni a identificare e correggere le vulnerabilità prima che lo facciano gli attaccanti reali.</p>
+      <p class="letter-p">Il nostro team combina competenze in <strong>operazioni Red Team, analisi delle vulnerabilità, exploitation etico e reverse engineering</strong>. Ogni incarico segue metodologie riconosciute a livello internazionale — OWASP, OSSTMM, PTES e NIST — adattate al contesto e al profilo di rischio di ciascun cliente.</p>
+      <p class="letter-p">Serviamo fintech, piattaforme e-commerce, strutture sanitarie, studi legali, aziende tecnologiche, infrastrutture critiche e startup. Indipendentemente dalle dimensioni, ogni progetto riceve <strong>rigore tecnico, riservatezza assoluta e miglioramenti concreti alla sicurezza</strong>.</p>
+      <p class="letter-p">Confidiamo che questo catalogo illustri l'ampiezza dei nostri servizi. Siamo a disposizione per discutere le vostre esigenze specifiche e presentare una proposta personalizzata.</p>
+    </div>
+
+    <div class="letter-sig always-flex">
+      <div class="sig-avatar">DL</div>
+      <div>
+        <div class="sig-name">Douglas Lopes</div>
+        <div class="sig-role">
+          <span data-lang-inline="pt">Founder & CEO — IntrusionCyber</span>
+          <span data-lang-inline="en">Founder & CEO — IntrusionCyber</span>
+          <span data-lang-inline="it">Fondatore & CEO — IntrusionCyber</span>
+        </div>
+        <div style="margin-top:6px; font-size:13px; color:var(--muted); font-family:'Space Mono',monospace;">
+          douglas@intrusioncyber.com · +55 61 99638-5018
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services-section" id="services">
+  <div class="section-label">
+    <span data-lang-inline="pt">Serviços</span>
+    <span data-lang-inline="en">Services</span>
+    <span data-lang-inline="it">Servizi</span>
+  </div>
+  <h2 class="section-title">
+    <span data-lang-inline="pt">O Que Fazemos</span>
+    <span data-lang-inline="en">What We Do</span>
+    <span data-lang-inline="it">Cosa Facciamo</span>
+  </h2>
+
+  <div class="services-grid always-grid">
+
+    <!-- Pentest Externo -->
+    <div class="service-card">
+      <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      <div class="service-name">
+        <span data-lang-inline="pt">Pentest Externo</span>
+        <span data-lang-inline="en">External Pentest</span>
+        <span data-lang-inline="it">Pentest Esterno</span>
+      </div>
+      <p class="service-desc">
+        <span data-lang-inline="pt">Simulação de ataques a partir da internet contra a superfície pública da empresa. Avaliação de APIs, portais web, e-mails, DNS, e todos os serviços expostos externamente.</span>
+        <span data-lang-inline="en">Simulation of attacks from the internet against the company's public surface. Evaluation of APIs, web portals, email, DNS, and all externally exposed services.</span>
+        <span data-lang-inline="it">Simulazione di attacchi da Internet contro la superficie pubblica dell'azienda. Valutazione di API, portali web, email, DNS e tutti i servizi esposti esternamente.</span>
+      </p>
+      <ul class="service-scope">
+        <li class="scope-tag">Web Apps</li><li class="scope-tag">APIs</li><li class="scope-tag">DNS</li><li class="scope-tag">VPN</li><li class="scope-tag">E-mail</li><li class="scope-tag">OSINT</li>
+      </ul>
+    </div>
+
+    <!-- Pentest Interno -->
+    <div class="service-card">
+      <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+      <div class="service-name">
+        <span data-lang-inline="pt">Pentest Interno</span>
+        <span data-lang-inline="en">Internal Pentest</span>
+        <span data-lang-inline="it">Pentest Interno</span>
+      </div>
+      <p class="service-desc">
+        <span data-lang-inline="pt">Avaliação da segurança da rede interna simulando um atacante com acesso à rede corporativa. Identifica falhas de segmentação, privilégios excessivos e caminhos de escalada.</span>
+        <span data-lang-inline="en">Assessment of internal network security simulating an attacker with corporate network access. Identifies segmentation failures, excessive privileges, and escalation paths.</span>
+        <span data-lang-inline="it">Valutazione della sicurezza della rete interna simulando un attaccante con accesso alla rete aziendale. Identifica errori di segmentazione, privilegi eccessivi e percorsi di escalation.</span>
+      </p>
+      <ul class="service-scope">
+        <li class="scope-tag">LAN/WAN</li><li class="scope-tag">AD</li><li class="scope-tag">Shares</li><li class="scope-tag">VLAN</li><li class="scope-tag">Lateral Movement</li>
+      </ul>
+    </div>
+
+    <!-- Pentest Wi-Fi -->
+    <div class="service-card">
+      <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12.55a11 11 0 0 1 14.08 0M1.42 9a16 16 0 0 1 21.16 0M8.53 16.11a6 6 0 0 1 6.95 0M12 20h.01"/></svg>
+      <div class="service-name">Pentest Wi-Fi</div>
+      <p class="service-desc">
+        <span data-lang-inline="pt">Teste da segurança das redes sem fio corporativas, incluindo ataques de captura de handshake, Evil Twin, WPA cracking e análise de clientes vulneráveis.</span>
+        <span data-lang-inline="en">Testing of corporate wireless network security, including handshake capture attacks, Evil Twin, WPA cracking, and analysis of vulnerable clients.</span>
+        <span data-lang-inline="it">Test della sicurezza delle reti wireless aziendali, inclusi attacchi di cattura handshake, Evil Twin, WPA cracking e analisi dei client vulnerabili.</span>
+      </p>
+      <ul class="service-scope">
+        <li class="scope-tag">WPA2/3</li><li class="scope-tag">Evil Twin</li><li class="scope-tag">Rogue AP</li><li class="scope-tag">PMKID</li><li class="scope-tag">WPS</li>
+      </ul>
+    </div>
+
+    <!-- Web Application -->
+    <div class="service-card">
+      <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+      <div class="service-name">
+        <span data-lang-inline="pt">Pentest de Aplicações Web</span>
+        <span data-lang-inline="en">Web Application Pentest</span>
+        <span data-lang-inline="it">Pentest Applicazioni Web</span>
+      </div>
+      <p class="service-desc">
+        <span data-lang-inline="pt">Análise completa de aplicações web seguindo o OWASP Top 10 e além. SQLi, XSS, IDOR, SSRF, broken auth, business logic flaws e muito mais.</span>
+        <span data-lang-inline="en">Comprehensive web application analysis following OWASP Top 10 and beyond. SQLi, XSS, IDOR, SSRF, broken auth, business logic flaws, and more.</span>
+        <span data-lang-inline="it">Analisi completa delle applicazioni web seguendo OWASP Top 10 e oltre. SQLi, XSS, IDOR, SSRF, broken auth, business logic flaws e molto altro.</span>
+      </p>
+      <ul class="service-scope">
+        <li class="scope-tag">OWASP</li><li class="scope-tag">SQLi</li><li class="scope-tag">XSS</li><li class="scope-tag">SSRF</li><li class="scope-tag">Auth Bypass</li><li class="scope-tag">API</li>
+      </ul>
+    </div>
+
+    <!-- Active Directory -->
+    <div class="service-card">
+      <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      <div class="service-name">
+        <span data-lang-inline="pt">Pentest Active Directory</span>
+        <span data-lang-inline="en">Active Directory Pentest</span>
+        <span data-lang-inline="it">Pentest Active Directory</span>
+      </div>
+      <p class="service-desc">
+        <span data-lang-inline="pt">Avaliação completa do AD: Kerberoasting, Pass-the-Hash, BloodHound, DCSync, privilege escalation e comprometimento de domínio.</span>
+        <span data-lang-inline="en">Full AD assessment: Kerberoasting, Pass-the-Hash, BloodHound, DCSync, privilege escalation, and domain compromise.</span>
+        <span data-lang-inline="it">Valutazione completa dell'AD: Kerberoasting, Pass-the-Hash, BloodHound, DCSync, privilege escalation e compromissione del dominio.</span>
+      </p>
+      <ul class="service-scope">
+        <li class="scope-tag">Kerberoasting</li><li class="scope-tag">PtH</li><li class="scope-tag">DCSync</li><li class="scope-tag">BloodHound</li><li class="scope-tag">GPO Abuse</li>
+      </ul>
+    </div>
+
+    <!-- Pentest as a Service -->
+    <div class="service-card">
+      <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--gold)"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      <div class="service-name" style="color:var(--gold)">
+        <span data-lang-inline="pt">Pentest as a Service (PTaaS)</span>
+        <span data-lang-inline="en">Pentest as a Service (PTaaS)</span>
+        <span data-lang-inline="it">Pentest as a Service (PTaaS)</span>
+      </div>
+      <p class="service-desc">
+        <span data-lang-inline="pt">Modelo contínuo de testes de segurança com avaliações recorrentes, dashboard de vulnerabilidades, SLA de resposta e acesso direto ao time técnico. Segurança proativa como assinatura mensal.</span>
+        <span data-lang-inline="en">Continuous security testing model with recurring assessments, vulnerability dashboard, response SLA, and direct access to the technical team. Proactive security as a monthly subscription.</span>
+        <span data-lang-inline="it">Modello continuo di test di sicurezza con valutazioni ricorrenti, dashboard delle vulnerabilità, SLA di risposta e accesso diretto al team tecnico. Sicurezza proattiva come abbonamento mensile.</span>
+      </p>
+      <ul class="service-scope">
+        <li class="scope-tag" style="border-color:rgba(255,209,102,0.4);color:var(--gold)">Mensal/Monthly</li>
+        <li class="scope-tag" style="border-color:rgba(255,209,102,0.4);color:var(--gold)">Dashboard</li>
+        <li class="scope-tag" style="border-color:rgba(255,209,102,0.4);color:var(--gold)">SLA</li>
+        <li class="scope-tag" style="border-color:rgba(255,209,102,0.4);color:var(--gold)">Relatório</li>
+      </ul>
+    </div>
+
+    <!-- Windows Server / iDRAC -->
+    <div class="service-card">
+      <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+      <div class="service-name">
+        <span data-lang-inline="pt">Pentest Servidores & iDRAC</span>
+        <span data-lang-inline="en">Server & iDRAC Pentest</span>
+        <span data-lang-inline="it">Pentest Server & iDRAC</span>
+      </div>
+      <p class="service-desc">
+        <span data-lang-inline="pt">Avaliação de segurança de servidores Windows Server, Linux, interfaces iDRAC/iLO/IPMI, hypervisors VMware/Hyper-V e configurações de hardening.</span>
+        <span data-lang-inline="en">Security assessment of Windows Server, Linux servers, iDRAC/iLO/IPMI interfaces, VMware/Hyper-V hypervisors, and hardening configurations.</span>
+        <span data-lang-inline="it">Valutazione della sicurezza di Windows Server, server Linux, interfacce iDRAC/iLO/IPMI, hypervisor VMware/Hyper-V e configurazioni di hardening.</span>
+      </p>
+      <ul class="service-scope">
+        <li class="scope-tag">Windows Server</li><li class="scope-tag">iDRAC</li><li class="scope-tag">iLO</li><li class="scope-tag">IPMI</li><li class="scope-tag">VMware</li><li class="scope-tag">Linux</li>
+      </ul>
+    </div>
+
+    <!-- Roteadores / Network -->
+    <div class="service-card">
+      <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      <div class="service-name">
+        <span data-lang-inline="pt">Pentest de Redes & Roteadores</span>
+        <span data-lang-inline="en">Network & Router Pentest</span>
+        <span data-lang-inline="it">Pentest Reti & Router</span>
+      </div>
+      <p class="service-desc">
+        <span data-lang-inline="pt">Avaliação de equipamentos de rede: roteadores, switches, firewalls, Cisco IOS, Fortinet, Mikrotik. Protocolos SNMP, Telnet, CVEs de firmware e configurações inseguras.</span>
+        <span data-lang-inline="en">Evaluation of network equipment: routers, switches, firewalls, Cisco IOS, Fortinet, Mikrotik. SNMP, Telnet protocols, firmware CVEs, and insecure configurations.</span>
+        <span data-lang-inline="it">Valutazione delle apparecchiature di rete: router, switch, firewall, Cisco IOS, Fortinet, Mikrotik. Protocolli SNMP, Telnet, CVE firmware e configurazioni non sicure.</span>
+      </p>
+      <ul class="service-scope">
+        <li class="scope-tag">Cisco</li><li class="scope-tag">Fortinet</li><li class="scope-tag">Mikrotik</li><li class="scope-tag">SNMP</li><li class="scope-tag">Firmware</li>
+      </ul>
+    </div>
+
+    <!-- Social Engineering -->
+    <div class="service-card">
+      <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      <div class="service-name">
+        <span data-lang-inline="pt">Engenharia Social & Phishing</span>
+        <span data-lang-inline="en">Social Engineering & Phishing</span>
+        <span data-lang-inline="it">Ingegneria Sociale & Phishing</span>
+      </div>
+      <p class="service-desc">
+        <span data-lang-inline="pt">Campanhas de phishing controladas, simulação de spear-phishing, vishing, smishing e testes de conscientização para medir a resiliência humana da empresa.</span>
+        <span data-lang-inline="en">Controlled phishing campaigns, spear-phishing simulation, vishing, smishing, and awareness testing to measure the company's human resilience.</span>
+        <span data-lang-inline="it">Campagne di phishing controllate, simulazione di spear-phishing, vishing, smishing e test di sensibilizzazione per misurare la resilienza umana dell'azienda.</span>
+      </p>
+      <ul class="service-scope">
+        <li class="scope-tag">Phishing</li><li class="scope-tag">Spear Phishing</li><li class="scope-tag">Vishing</li><li class="scope-tag">Smishing</li><li class="scope-tag">Awareness</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- CATALOG / PRICING TABLE -->
+<section class="catalog-section" id="catalog">
+  <div class="catalog-inner">
+    <div class="section-label">
+      <span data-lang-inline="pt">Catálogo & Preços</span>
+      <span data-lang-inline="en">Catalog & Pricing</span>
+      <span data-lang-inline="it">Catalogo & Prezzi</span>
+    </div>
+    <h2 class="section-title">
+      <span data-lang-inline="pt">Tabela de Serviços</span>
+      <span data-lang-inline="en">Service Table</span>
+      <span data-lang-inline="it">Tabella dei Servizi</span>
+    </h2>
+    <p style="color:var(--muted);font-size:14px;margin-top:-16px;margin-bottom:0;">
+      <span data-lang-inline="pt">* Valores iniciais. Proposta final após avaliação do escopo. Valores sujeitos a alteração.</span>
+      <span data-lang-inline="en">* Starting prices. Final proposal after scope evaluation. Values subject to change.</span>
+      <span data-lang-inline="it">* Prezzi di partenza. Proposta finale dopo valutazione dello scope. Valori soggetti a variazione.</span>
+    </p>
+
+    <table class="catalog-table">
+      <thead>
+        <tr>
+          <th style="width:34%">
+            <span data-lang-inline="pt">Serviço</span>
+            <span data-lang-inline="en">Service</span>
+            <span data-lang-inline="it">Servizio</span>
+          </th>
+          <th>
+            <span data-lang-inline="pt">Descrição</span>
+            <span data-lang-inline="en">Description</span>
+            <span data-lang-inline="it">Descrizione</span>
+          </th>
+          <th style="width:14%">USD 🇺🇸</th>
+          <th style="width:14%">BRL 🇧🇷</th>
+          <th style="width:14%">EUR 🇮🇹</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- PENTEST EXTERNO -->
+        <tr><td colspan="5" class="catalog-category">
+          <span data-lang-inline="pt">🌐 Pentest Externo</span>
+          <span data-lang-inline="en">🌐 External Pentest</span>
+          <span data-lang-inline="it">🌐 Pentest Esterno</span>
+        </td></tr>
+        <tr>
+          <td class="td-service">
+            <span data-lang-inline="pt">Pentest Externo — Básico</span>
+            <span data-lang-inline="en">External Pentest — Basic</span>
+            <span data-lang-inline="it">Pentest Esterno — Base</span>
+          </td>
+          <td>
+            <span data-lang-inline="pt">Até 5 IPs/domínios, relatório executivo + técnico</span>
+            <span data-lang-inline="en">Up to 5 IPs/domains, executive + technical report</span>
+            <span data-lang-inline="it">Fino a 5 IP/domini, report esecutivo + tecnico</span>
+          </td>
+          <td class="td-price price-usd">$1,500</td>
+          <td class="td-price price-brl">R$ 7.500</td>
+          <td class="td-price price-eur">€1.350</td>
+        </tr>
+        <tr>
+          <td class="td-service">
+            <span data-lang-inline="pt">Pentest Externo — Avançado</span>
+            <span data-lang-inline="en">External Pentest — Advanced</span>
+            <span data-lang-inline="it">Pentest Esterno — Avanzato</span>
+          </td>
+          <td>
+            <span data-lang-inline="pt">Ilimitado, OSINT, relatório completo + retest</span>
+            <span data-lang-inline="en">Unlimited scope, OSINT, full report + retest</span>
+            <span data-lang-inline="it">Scope illimitato, OSINT, report completo + retest</span>
+          </td>
+          <td class="td-price price-usd">$3,500</td>
+          <td class="td-price price-brl">R$ 17.500</td>
+          <td class="td-price price-eur">€3.200</td>
+        </tr>
+
+        <!-- PENTEST INTERNO -->
+        <tr><td colspan="5" class="catalog-category">
+          <span data-lang-inline="pt">🏢 Pentest Interno</span>
+          <span data-lang-inline="en">🏢 Internal Pentest</span>
+          <span data-lang-inline="it">🏢 Pentest Interno</span>
+        </td></tr>
+        <tr>
+          <td class="td-service">
+            <span data-lang-inline="pt">Pentest Interno — Básico</span>
+            <span data-lang-inline="en">Internal Pentest — Basic</span>
+            <span data-lang-inline="it">Pentest Interno — Base</span>
+          </td>
+          <td>
+            <span data-lang-inline="pt">Rede interna, até 50 hosts, sem AD</span>
+            <span data-lang-inline="en">Internal network, up to 50 hosts, no AD</span>
+            <span data-lang-inline="it">Rete interna, fino a 50 host, senza AD</span>
+          </td>
+          <td class="td-price price-usd">$2,000</td>
+          <td class="td-price price-brl">R$ 10.000</td>
+          <td class="td-price price-eur">€1.800</td>
+        </tr>
+        <tr>
+          <td class="td-service">
+            <span data-lang-inline="pt">Pentest Interno + AD</span>
+            <span data-lang-inline="en">Internal Pentest + AD</span>
+            <span data-lang-inline="it">Pentest Interno + AD</span>
+          </td>
+          <td>
+            <span data-lang-inline="pt">Rede + Active Directory completo, escalada de domínio</span>
+            <span data-lang-inline="en">Network + full Active Directory, domain escalation</span>
+            <span data-lang-inline="it">Rete + Active Directory completo, escalation dominio</span>
+          </td>
+          <td class="td-price price-usd">$4,500</td>
+          <td class="td-price price-brl">R$ 22.500</td>
+          <td class="td-price price-eur">€4.000</td>
+        </tr>
+
+        <!-- WI-FI -->
+        <tr><td colspan="5" class="catalog-category">
+          <span data-lang-inline="pt">📡 Pentest Wi-Fi</span>
+          <span data-lang-inline="en">📡 Wi-Fi Pentest</span>
+          <span data-lang-inline="it">📡 Pentest Wi-Fi</span>
+        </td></tr>
+        <tr>
+          <td class="td-service">
+            <span data-lang-inline="pt">Wi-Fi Corporativo</span>
+            <span data-lang-inline="en">Corporate Wi-Fi</span>
+            <span data-lang-inline="it">Wi-Fi Aziendale</span>
+          </td>
+          <td>
+            <span data-lang-inline="pt">Análise de redes, ataques WPA/WPS, Evil Twin</span>
+            <span data-lang-inline="en">Network analysis, WPA/WPS attacks, Evil Twin</span>
+            <span data-lang-inline="it">Analisi reti, attacchi WPA/WPS, Evil Twin</span>
+          </td>
+          <td class="td-price price-usd">$1,200</td>
+          <td class="td-price price-brl">R$ 6.000</td>
+          <td class="td-price price-eur">€1.100</td>
+        </tr>
+
+        <!-- WEB APP -->
+        <tr><td colspan="5" class="catalog-category">
+          <span data-lang-inline="pt">🌍 Aplicações Web & API</span>
+          <span data-lang-inline="en">🌍 Web Applications & API</span>
+          <span data-lang-inline="it">🌍 Applicazioni Web & API</span>
+        </td></tr>
+        <tr>
+          <td class="td-service">
+            <span data-lang-inline="pt">Web App — Básico (OWASP Top 10)</span>
+            <span data-lang-inline="en">Web App — Basic (OWASP Top 10)</span>
+            <span data-lang-inline="it">Web App — Base (OWASP Top 10)</span>
+          </td>
+          <td>
+            <span data-lang-inline="pt">1 aplicação, relatório técnico</span>
+            <span data-lang-inline="en">1 application, technical report</span>
+            <span data-lang-inline="it">1 applicazione, report tecnico</span>
+          </td>
+          <td class="td-price price-usd">$1,800</td>
+          <td class="td-price price-brl">R$ 9.000</td>
+          <td class="td-price price-eur">€1.600</td>
+        </tr>
+        <tr>
+          <td class="td-service">
+            <span data-lang-inline="pt">Web App — Avançado + API <span class="badge-hot">POPULAR</span></span>
+            <span data-lang-inline="en">Web App — Advanced + API <span class="badge-hot">POPULAR</span></span>
+            <span data-lang-inline="it">Web App — Avanzato + API <span class="badge-hot">POPOLARE</span></span>
+          </td>
+          <td>
+            <span data-lang-inline="pt">Lógica de negócio, autenticação, APIs REST/GraphQL</span>
+            <span data-lang-inline="en">Business logic, authentication, REST/GraphQL APIs</span>
+            <span data-lang-inline="it">Business logic, autenticazione, API REST/GraphQL</span>
+          </td>
+          <td class="td-price price-usd">$3,200</td>
+          <td class="td-price price-brl">R$ 16.000</td>
+          <td class="td-price price-eur">€2.900</td>
+        </tr>
+
+        <!-- SERVIDORES -->
+        <tr><td colspan="5" class="catalog-category">
+          <span data-lang-inline="pt">🖥️ Servidores & Infraestrutura</span>
+          <span data-lang-inline="en">🖥️ Servers & Infrastructure</span>
+          <span data-lang-inline="it">🖥️ Server & Infrastruttura</span>
+        </td></tr>
+        <tr>
+          <td class="td-service">Windows Server
+          </td>
+          <td>
+            <span data-lang-inline="pt">Hardening, CVEs, serviços expostos, RDP, SMB</span>
+            <span data-lang-inline="en">Hardening, CVEs, exposed services, RDP, SMB</span>
+            <span data-lang-inline="it">Hardening, CVE, servizi esposti, RDP, SMB</span>
+          </td>
+          <td class="td-price price-usd">$1,500</td>
+          <td class="td-price price-brl">R$ 7.500</td>
+          <td class="td-price price-eur">€1.350</td>
+        </tr>
+        <tr>
+          <td class="td-service">Linux Server</td>
+          <td>
+            <span data-lang-inline="pt">Privilege escalation, SUID, serviços, misconfigs</span>
+            <span data-lang-inline="en">Privilege escalation, SUID, services, misconfigs</span>
+            <span data-lang-inline="it">Privilege escalation, SUID, servizi, misconfigs</span>
+          </td>
+          <td class="td-price price-usd">$1,400</td>
+          <td class="td-price price-brl">R$ 7.000</td>
+          <td class="td-price price-eur">€1.250</td>
+        </tr>
+        <tr>
+          <td class="td-service">iDRAC / iLO / IPMI</td>
+          <td>
+            <span data-lang-inline="pt">Interfaces de gerenciamento fora de banda</span>
+            <span data-lang-inline="en">Out-of-band management interfaces</span>
+            <span data-lang-inline="it">Interfacce di gestione out-of-band</span>
+          </td>
+          <td class="td-price price-usd">$1,200</td>
+          <td class="td-price price-brl">R$ 6.000</td>
+          <td class="td-price price-eur">€1.100</td>
+        </tr>
+        <tr>
+          <td class="td-service">VMware / Hyper-V</td>
+          <td>
+            <span data-lang-inline="pt">Hypervisor, escape de VM, configurações</span>
+            <span data-lang-inline="en">Hypervisor, VM escape, configurations</span>
+            <span data-lang-inline="it">Hypervisor, VM escape, configurazioni</span>
+          </td>
+          <td class="td-price price-usd">$2,000</td>
+          <td class="td-price price-brl">R$ 10.000</td>
+          <td class="td-price price-eur">€1.800</td>
+        </tr>
+
+        <!-- ROTEADORES -->
+        <tr><td colspan="5" class="catalog-category">
+          <span data-lang-inline="pt">🔀 Roteadores & Switches</span>
+          <span data-lang-inline="en">🔀 Routers & Switches</span>
+          <span data-lang-inline="it">🔀 Router & Switch</span>
+        </td></tr>
+        <tr>
+          <td class="td-service">Cisco IOS / NX-OS</td>
+          <td>
+            <span data-lang-inline="pt">CVEs, credenciais default, SNMP, routing</span>
+            <span data-lang-inline="en">CVEs, default credentials, SNMP, routing</span>
+            <span data-lang-inline="it">CVE, credenziali default, SNMP, routing</span>
+          </td>
+          <td class="td-price price-usd">$1,500</td>
+          <td class="td-price price-brl">R$ 7.500</td>
+          <td class="td-price price-eur">€1.350</td>
+        </tr>
+        <tr>
+          <td class="td-service">Fortinet / Mikrotik / Ubiquiti</td>
+          <td>
+            <span data-lang-inline="pt">Firmware, painel admin, VPN, firewall rules</span>
+            <span data-lang-inline="en">Firmware, admin panel, VPN, firewall rules</span>
+            <span data-lang-inline="it">Firmware, pannello admin, VPN, regole firewall</span>
+          </td>
+          <td class="td-price price-usd">$1,200</td>
+          <td class="td-price price-brl">R$ 6.000</td>
+          <td class="td-price price-eur">€1.100</td>
+        </tr>
+
+        <!-- SOCIAL ENGINEERING -->
+        <tr><td colspan="5" class="catalog-category">
+          <span data-lang-inline="pt">🎭 Engenharia Social</span>
+          <span data-lang-inline="en">🎭 Social Engineering</span>
+          <span data-lang-inline="it">🎭 Ingegneria Sociale</span>
+        </td></tr>
+        <tr>
+          <td class="td-service">
+            <span data-lang-inline="pt">Campanha de Phishing <span class="badge-new">NEW</span></span>
+            <span data-lang-inline="en">Phishing Campaign <span class="badge-new">NEW</span></span>
+            <span data-lang-inline="it">Campagna Phishing <span class="badge-new">NEW</span></span>
+          </td>
+          <td>
+            <span data-lang-inline="pt">Até 100 alvos, relatório de cliques e credenciais</span>
+            <span data-lang-inline="en">Up to 100 targets, click and credential report</span>
+            <span data-lang-inline="it">Fino a 100 target, report click e credenziali</span>
+          </td>
+          <td class="td-price price-usd">$1,800</td>
+          <td class="td-price price-brl">R$ 9.000</td>
+          <td class="td-price price-eur">€1.600</td>
+        </tr>
+        <tr>
+          <td class="td-service">
+            <span data-lang-inline="pt">Spear Phishing Executivo</span>
+            <span data-lang-inline="en">Executive Spear Phishing</span>
+            <span data-lang-inline="it">Spear Phishing Esecutivo</span>
+          </td>
+          <td>
+            <span data-lang-inline="pt">Alvos específicos, personalizado, BEC simulation</span>
+            <span data-lang-inline="en">Specific targets, custom-tailored, BEC simulation</span>
+            <span data-lang-inline="it">Target specifici, personalizzato, simulazione BEC</span>
+          </td>
+          <td class="td-price price-usd">$2,500</td>
+          <td class="td-price price-brl">R$ 12.500</td>
+          <td class="td-price price-eur">€2.200</td>
+        </tr>
+
+        <!-- PTAAS -->
+        <tr><td colspan="5" class="catalog-category">
+          <span data-lang-inline="pt">⚡ Pentest as a Service (PTaaS)</span>
+          <span data-lang-inline="en">⚡ Pentest as a Service (PTaaS)</span>
+          <span data-lang-inline="it">⚡ Pentest as a Service (PTaaS)</span>
+        </td></tr>
+        <tr>
+          <td class="td-service">
+            <span data-lang-inline="pt">PTaaS — Starter <span class="badge-hot">RECOMENDADO</span></span>
+            <span data-lang-inline="en">PTaaS — Starter <span class="badge-hot">RECOMMENDED</span></span>
+            <span data-lang-inline="it">PTaaS — Starter <span class="badge-hot">CONSIGLIATO</span></span>
+          </td>
+          <td>
+            <span data-lang-inline="pt">1 pentest/mês, escopo rotativo, suporte técnico</span>
+            <span data-lang-inline="en">1 pentest/month, rotating scope, technical support</span>
+            <span data-lang-inline="it">1 pentest/mese, scope rotativo, supporto tecnico</span>
+          </td>
+          <td class="td-price price-usd">$1,200<span style="font-size:10px;color:var(--muted)">/mo</span></td>
+          <td class="td-price price-brl">R$ 6.000<span style="font-size:10px;color:var(--muted)">/mês</span></td>
+          <td class="td-price price-eur">€1.100<span style="font-size:10px;color:var(--muted)">/mese</span></td>
+        </tr>
+        <tr>
+          <td class="td-service">PTaaS — Professional</td>
+          <td>
+            <span data-lang-inline="pt">Testes ilimitados, dashboard, SLA 24h, relatórios</span>
+            <span data-lang-inline="en">Unlimited tests, dashboard, 24h SLA, reports</span>
+            <span data-lang-inline="it">Test illimitati, dashboard, SLA 24h, report</span>
+          </td>
+          <td class="td-price price-usd">$2,800<span style="font-size:10px;color:var(--muted)">/mo</span></td>
+          <td class="td-price price-brl">R$ 14.000<span style="font-size:10px;color:var(--muted)">/mês</span></td>
+          <td class="td-price price-eur">€2.500<span style="font-size:10px;color:var(--muted)">/mese</span></td>
+        </tr>
+
+        <!-- RED TEAM -->
+        <tr><td colspan="5" class="catalog-category">
+          <span data-lang-inline="pt">🔴 Red Team</span>
+          <span data-lang-inline="en">🔴 Red Team</span>
+          <span data-lang-inline="it">🔴 Red Team</span>
+        </td></tr>
+        <tr>
+          <td class="td-service">
+            <span data-lang-inline="pt">Red Team — Full Engagement</span>
+            <span data-lang-inline="en">Red Team — Full Engagement</span>
+            <span data-lang-inline="it">Red Team — Full Engagement</span>
+          </td>
+          <td>
+            <span data-lang-inline="pt">Simulação APT completa, multi-vetor, objetivo-based</span>
+            <span data-lang-inline="en">Full APT simulation, multi-vector, objective-based</span>
+            <span data-lang-inline="it">Simulazione APT completa, multi-vettore, basata su obiettivi</span>
+          </td>
+          <td class="td-price price-usd">$8,000+</td>
+          <td class="td-price price-brl">R$ 40.000+</td>
+          <td class="td-price price-eur">€7.200+</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section class="portfolio-section" id="portfolio">
+  <div class="section-label">
+    <span data-lang-inline="pt">Portfólio</span>
+    <span data-lang-inline="en">Portfolio</span>
+    <span data-lang-inline="it">Portfolio</span>
+  </div>
+  <h2 class="section-title">
+    <span data-lang-inline="pt">Cases & Resultados</span>
+    <span data-lang-inline="en">Cases & Results</span>
+    <span data-lang-inline="it">Case & Risultati</span>
+  </h2>
+
+  <div class="portfolio-grid always-grid">
+
+    <div class="portfolio-card">
+      <div class="portfolio-sector">Fintech · Brasil</div>
+      <div class="portfolio-name">
+        <span data-lang-inline="pt">Plataforma de Pagamentos</span>
+        <span data-lang-inline="en">Payments Platform</span>
+        <span data-lang-inline="it">Piattaforma di Pagamenti</span>
+      </div>
+      <p class="portfolio-desc">
+        <span data-lang-inline="pt">Pentest completo em aplicação web e APIs de pagamento. Identificadas 3 vulnerabilidades críticas incluindo IDOR em transações e bypass de autenticação 2FA.</span>
+        <span data-lang-inline="en">Full pentest on web application and payment APIs. 3 critical vulnerabilities identified including IDOR in transactions and 2FA authentication bypass.</span>
+        <span data-lang-inline="it">Pentest completo su applicazione web e API di pagamento. Identificate 3 vulnerabilità critiche incluso IDOR nelle transazioni e bypass dell'autenticazione 2FA.</span>
+      </p>
+      <div class="portfolio-outcome">
+        <span data-lang-inline="pt">✓ 3 críticas corrigidas · 100% remediado em 30 dias</span>
+        <span data-lang-inline="en">✓ 3 critical fixed · 100% remediated in 30 days</span>
+        <span data-lang-inline="it">✓ 3 critiche corrette · 100% rimediato in 30 giorni</span>
+      </div>
+    </div>
+
+    <div class="portfolio-card">
+      <div class="portfolio-sector">Healthcare · Brasil</div>
+      <div class="portfolio-name">
+        <span data-lang-inline="pt">Rede Hospitalar</span>
+        <span data-lang-inline="en">Hospital Network</span>
+        <span data-lang-inline="it">Rete Ospedaliera</span>
+      </div>
+      <p class="portfolio-desc">
+        <span data-lang-inline="pt">Pentest interno e externo em rede com 800+ hosts, Active Directory e sistemas PACS/DICOM. Comprometimento de domínio via Kerberoasting em 4 horas.</span>
+        <span data-lang-inline="en">Internal and external pentest on network with 800+ hosts, Active Directory, and PACS/DICOM systems. Domain compromise via Kerberoasting in 4 hours.</span>
+        <span data-lang-inline="it">Pentest interno ed esterno su rete con 800+ host, Active Directory e sistemi PACS/DICOM. Compromissione del dominio via Kerberoasting in 4 ore.</span>
+      </p>
+      <div class="portfolio-outcome">
+        <span data-lang-inline="pt">✓ AD hardening implementado · Segmentação corrigida</span>
+        <span data-lang-inline="en">✓ AD hardening implemented · Segmentation corrected</span>
+        <span data-lang-inline="it">✓ AD hardening implementato · Segmentazione corretta</span>
+      </div>
+    </div>
+
+    <div class="portfolio-card">
+      <div class="portfolio-sector">E-Commerce · Brasil</div>
+      <div class="portfolio-name">
+        <span data-lang-inline="pt">Marketplace Nacional</span>
+        <span data-lang-inline="en">National Marketplace</span>
+        <span data-lang-inline="it">Marketplace Nazionale</span>
+      </div>
+      <p class="portfolio-desc">
+        <span data-lang-inline="pt">PTaaS com testes mensais em plataforma de e-commerce com 2M de usuários. Identificação contínua de novas vulnerabilidades a cada sprint de desenvolvimento.</span>
+        <span data-lang-inline="en">PTaaS with monthly testing on e-commerce platform with 2M users. Continuous identification of new vulnerabilities at each development sprint.</span>
+        <span data-lang-inline="it">PTaaS con test mensili su piattaforma e-commerce con 2M di utenti. Identificazione continua di nuove vulnerabilità ad ogni sprint di sviluppo.</span>
+      </p>
+      <div class="portfolio-outcome">
+        <span data-lang-inline="pt">✓ 0 incidentes em 18 meses de contrato</span>
+        <span data-lang-inline="en">✓ 0 incidents in 18 months of contract</span>
+        <span data-lang-inline="it">✓ 0 incidenti in 18 mesi di contratto</span>
+      </div>
+    </div>
+
+    <div class="portfolio-card">
+      <div class="portfolio-sector">
+        <span data-lang-inline="pt">Tecnologia · Brasil</span>
+        <span data-lang-inline="en">Technology · Brazil</span>
+        <span data-lang-inline="it">Tecnologia · Brasile</span>
+      </div>
+      <div class="portfolio-name">SaaS B2B</div>
+      <p class="portfolio-desc">
+        <span data-lang-inline="pt">Pentest em aplicação SaaS B2B com multi-tenancy. Identificado IDOR crítico permitindo acesso a dados de clientes de outros tenants via manipulação de UUID.</span>
+        <span data-lang-inline="en">Pentest on B2B SaaS application with multi-tenancy. Critical IDOR identified allowing access to other tenant customer data via UUID manipulation.</span>
+        <span data-lang-inline="it">Pentest su applicazione SaaS B2B con multi-tenancy. Identificato IDOR critico che consentiva accesso ai dati di altri tenant tramite manipolazione UUID.</span>
+      </p>
+      <div class="portfolio-outcome">
+        <span data-lang-inline="pt">✓ Correção em 48h · Relatório de conformidade entregue</span>
+        <span data-lang-inline="en">✓ Fixed in 48h · Compliance report delivered</span>
+        <span data-lang-inline="it">✓ Correzione in 48h · Report di conformità consegnato</span>
+      </div>
+    </div>
+
+    <div class="portfolio-card">
+      <div class="portfolio-sector">
+        <span data-lang-inline="pt">Jurídico · Brasil</span>
+        <span data-lang-inline="en">Legal · Brazil</span>
+        <span data-lang-inline="it">Legale · Brasile</span>
+      </div>
+      <div class="portfolio-name">
+        <span data-lang-inline="pt">Escritório de Advocacia</span>
+        <span data-lang-inline="en">Law Firm</span>
+        <span data-lang-inline="it">Studio Legale</span>
+      </div>
+      <p class="portfolio-desc">
+        <span data-lang-inline="pt">Pentest interno + Wi-Fi + engenharia social. 40% dos funcionários clicaram no phishing simulado. Redes Wi-Fi guest e corporativa na mesma VLAN.</span>
+        <span data-lang-inline="en">Internal pentest + Wi-Fi + social engineering. 40% of employees clicked on simulated phishing. Guest and corporate Wi-Fi on same VLAN.</span>
+        <span data-lang-inline="it">Pentest interno + Wi-Fi + ingegneria sociale. Il 40% dei dipendenti ha cliccato sul phishing simulato. Wi-Fi guest e aziendale nella stessa VLAN.</span>
+      </p>
+      <div class="portfolio-outcome">
+        <span data-lang-inline="pt">✓ Treinamento implementado · VLAN segregada</span>
+        <span data-lang-inline="en">✓ Training implemented · VLAN segregated</span>
+        <span data-lang-inline="it">✓ Formazione implementata · VLAN segregata</span>
+      </div>
+    </div>
+
+    <div class="portfolio-card">
+      <div class="portfolio-sector">
+        <span data-lang-inline="pt">Infraestrutura · Portugal/Europa</span>
+        <span data-lang-inline="en">Infrastructure · Portugal/Europe</span>
+        <span data-lang-inline="it">Infrastruttura · Portogallo/Europa</span>
+      </div>
+      <div class="portfolio-name">
+        <span data-lang-inline="pt">Grupo Alimentar</span>
+        <span data-lang-inline="en">Food Group</span>
+        <span data-lang-inline="it">Gruppo Alimentare</span>
+      </div>
+      <p class="portfolio-desc">
+        <span data-lang-inline="pt">Auditoria de segurança e performance em múltiplos sites web corporativos. Análise de servidores, CDN, SSL, exposição de dados e hardening de infraestrutura.</span>
+        <span data-lang-inline="en">Security and performance audit on multiple corporate websites. Server analysis, CDN, SSL, data exposure, and infrastructure hardening.</span>
+        <span data-lang-inline="it">Audit di sicurezza e performance su più siti web aziendali. Analisi server, CDN, SSL, esposizione dati e hardening dell'infrastruttura.</span>
+      </p>
+      <div class="portfolio-outcome">
+        <span data-lang-inline="pt">✓ Relatório GDPR · 12 pontos críticos resolvidos</span>
+        <span data-lang-inline="en">✓ GDPR Report · 12 critical points resolved</span>
+        <span data-lang-inline="it">✓ Report GDPR · 12 punti critici risolti</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section">
+  <div class="section-label" style="justify-content:center">
+    <span data-lang-inline="pt">Contato</span>
+    <span data-lang-inline="en">Contact</span>
+    <span data-lang-inline="it">Contatto</span>
+  </div>
+  <h2 class="section-title">
+    <span data-lang-inline="pt">Vamos Conversar</span>
+    <span data-lang-inline="en">Let's Talk</span>
+    <span data-lang-inline="it">Parliamo</span>
+  </h2>
+  <p style="color:var(--muted);font-size:16px;max-width:500px;margin:0 auto;">
+    <span data-lang-inline="pt">Toda proposta começa com uma conversa. Sem compromisso, sem pressão.</span>
+    <span data-lang-inline="en">Every proposal starts with a conversation. No commitment, no pressure.</span>
+    <span data-lang-inline="it">Ogni proposta inizia con una conversazione. Senza impegno, senza pressione.</span>
+  </p>
+  <div class="contact-grid">
+    <div class="contact-item">
+      <div class="contact-label">EMAIL</div>
+      <a href="mailto:douglas@intrusioncyber.com">douglas@intrusioncyber.com</a>
+    </div>
+    <div class="contact-item">
+      <div class="contact-label">WHATSAPP BR</div>
+      <a href="https://wa.me/5561996385018">+55 61 99638-5018</a>
+    </div>
+    <div class="contact-item">
+      <div class="contact-label">WHATSAPP IT</div>
+      <a href="https://wa.me/351913680875">+351 913 680 875</a>
+    </div>
+    <div class="contact-item">
+      <div class="contact-label">WEBSITE</div>
+      <a href="https://www.intrusioncyber.com" target="_blank">intrusioncyber.com</a>
+    </div>
+  </div>
+  <div style="margin-top:48px;">
+    <a href="mailto:douglas@intrusioncyber.com" class="btn btn-primary">
+      <span data-lang-inline="pt">Solicitar Proposta Agora</span>
+      <span data-lang-inline="en">Request Proposal Now</span>
+      <span data-lang-inline="it">Richiedi Proposta Ora</span>
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <span style="color:var(--accent);font-family:'Space Mono',monospace;">INTRUSIONC</span><span style="color:var(--accent2);font-family:'Space Mono',monospace;">YBER</span>
+    · CNPJ 12.854.330/0001-23
+  </div>
+  <div>
+    <span data-lang-inline="pt">Brasília, Brasil · Roma, Itália</span>
+    <span data-lang-inline="en">Brasília, Brazil · Rome, Italy</span>
+    <span data-lang-inline="it">Brasília, Brasile · Roma, Italia</span>
+    · © 2026
+  </div>
+</footer>
+
+<script>
+function setLang(lang, btn) {
+  document.body.setAttribute('data-active-lang', lang);
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.documentElement.lang = lang;
+}
+
+// Smooth scroll for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+
+// Intersection observer for subtle card animations
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.service-card, .portfolio-card').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(20px)';
+  el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+  observer.observe(el);
+});
+</script>
+</body>
+</html>
